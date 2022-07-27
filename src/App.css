@@ -3,13 +3,182 @@
 }
 
 html {
-  height:100%;
+  height: 100%;
 }
 
 body {
-  margin:0;
-  height:100%;
-  background-color: #333;
-  /* position: relative; */
+  margin: 0;
+  height: 100%;
+  position: relative;
 }
 
+.containerTreasure {
+  font-size: 2rem;
+  z-index: 100;
+  margin-top: 8rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.heading {
+  font-size: 2.5rem;
+  color: white;
+  z-index: 100;
+  text-transform: uppercase;
+}
+
+.wrapperItem {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 1rem;
+  color: white;
+}
+
+.item {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1rem 0;
+  position: relative;
+}
+
+.item:hover {
+  box-shadow: 3px -4px 13px -4px rgba(137, 163, 255, 0.88);
+  animation: myrotate 0.4s linear;
+}
+
+.item:hover .buttonExchange {
+  display: block;
+  animation: mymove 0.2s ease-in;
+}
+
+.logo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.logo>div {
+  color: #ed1c51;
+  font-size: 2rem
+}
+
+.logo:hover {
+  animation: myscale 0.5s linear;
+}
+
+/* .item:hover .wrapperImage {
+  animation: myrotate 0.2s linear;
+} */
+
+@keyframes myrotate {
+  from {
+    transform: rotateY(-20deg);
+  }
+
+  to {
+    transform: rotateY(20deg);
+  }
+}
+
+@keyframes myscale {
+  from {
+    transform: scale(0.8);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes mymove {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(60);
+  }
+}
+
+.wrapperImage {
+  width: 5rem;
+  height: 5rem;
+  margin-right: 1rem;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+}
+
+.buttonExchange {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-170%);
+  right: 0;
+  border: 1px solid white;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  background-color: red;
+  font-size: 1rem;
+  display: none;
+  cursor: pointer;
+  z-index: 100;
+}
+
+.buttonExchange:hover {
+  padding: 0.6rem;
+  background-color: #fff;
+  color: red;
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 20px;
+  }
+
+  .wrapperItem {
+    width: 100%;
+    padding: 0 2rem;
+  }
+
+  .wrapperImage {
+    width: 3rem;
+    height: 3rem;
+    margin-right: 1rem;
+  }
+
+  .containerTreasure {
+    font-size: 1rem;
+  }
+
+  .buttonExchange {
+    font-size: 0.5rem;
+    padding: 0.5rem;
+  }
+
+  .logo>div {
+    font-size: 1.5rem;
+  }
+
+  .logo .logoImage {
+    width: 40px;
+  }
+
+  .connect {
+    font-size: 0.5rem;
+    background-color: black;
+  }
+
+  .heading {
+    font-size: 1.5rem;
+  }
+}

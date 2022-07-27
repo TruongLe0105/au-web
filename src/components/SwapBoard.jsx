@@ -504,14 +504,14 @@ const TokenSwap = ({
             {!isApprove
               ? RenderApproveButton(account, handleApprove, tokenSwap, networkId, modalLoading, balanceSwap)
               : RenderSwapButton(
-                  account,
-                  isSwapable,
-                  handleSwap,
-                  amount,
-                  tokenSwap?.address,
-                  modalLoading,
-                  balanceSwap,
-                )}
+                account,
+                isSwapable,
+                handleSwap,
+                amount,
+                tokenSwap?.address,
+                modalLoading,
+                balanceSwap,
+              )}
             {!isApprove && balanceSwap === 0 && tokenSwap && (
               <Text fontWeight={500} fontSize="14px" className="ms-0 mt-2 text-center" color="red">
                 Your balance must be greater than 0 for approving

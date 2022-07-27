@@ -9,6 +9,9 @@ import useClickOutside from "../../hooks/useClickOutside";
 import { GradientText } from "../commonStyle";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
+import logo from '../../assets/image/logo.png';
+import '../../App.css'
+
 
 export const NAV_HEIGHT = "100px";
 
@@ -18,8 +21,8 @@ const NavWrapper = styled.div`
   width: 100%;
   padding: 1rem;
   border-bottom: 1px solid #c4c4c4;
-  background: #fff;
   z-index: 1000;
+  background-color:rgb(19, 19, 19);
   height: ${NAV_HEIGHT};
 `;
 
@@ -29,72 +32,72 @@ const StyledLogoIcon = styled.img`
   margin-right: 8px;
 `;
 
-const StyledLink = styled.div`
-  transition: 0.2 ease-out;
-  color: #000;
-  font-weight: 700;
-  ${({ active }) => active && `cursor:default;`}
-  text-decoration: unset;
-  /* position: relative; */
-  text-align: center;
-  :hover {
-    opacity: 0.8;
-    color: #000;
-  }
-  ${({ active }) =>
-    active &&
-    `
-  :after {
-    content: '';
-    position: absolute;
-    height: 2px;
-    width: 100%;
-    left: 0;
-    background:-webkit-linear-gradient(-90deg, rgb(136, 3, 47), rgb(238, 21, 66))
-  }
-  `}
-`;
+// const StyledLink = styled.div`
+//   transition: 0.2 ease-out;
+//   color: #000;
+//   font-weight: 700;
+//   ${({ active }) => active && `cursor:default;`}
+//   text-decoration: unset;
+//   /* position: relative; */
+//   text-align: center;
+//   :hover {
+//     opacity: 0.8;
+//     color: #000;
+//   }
+//   ${({ active }) =>
+//     active &&
+//     `
+//   :after {
+//     content: '';
+//     position: absolute;
+//     height: 2px;
+//     width: 100%;
+//     left: 0;
+//     background:-webkit-linear-gradient(-90deg, rgb(136, 3, 47), rgb(238, 21, 66))
+//   }
+//   `}
+// `;
 
-const StyledMenuButton = styled(ShowMoreIcon)`
-  cursor: pointer;
-`;
+// const StyledMenuButton = styled(ShowMoreIcon)`
+//   cursor: pointer;
+// `;
 
-const NavLinkWrapper = styled.div`
-  top: -10%;
-  opacity: 0;
-  z-index: -1;
-  ${({ isShow }) =>
-    isShow && `top: calc(100% + 12px);opacity:1;z-index:1;padding:1rem;`}
-  position: absolute;
-  background: #fff;
-  box-shadow: 0 8px 5px rgba(0, 0, 0, 0.1);
-  transition: 0.2s ease-in-out;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 20px;
-  flex-direction: column;
-  left: -200%;
-  width: 200px;
-  transform: translateX(-50%);
-  & > * + * {
-    margin-top: 1rem;
-  }
-  @media screen and (min-width: 768px) {
-    opacity: 1;
-    flex-direction: row;
-    box-shadow: unset;
-    background: transparent;
-    border: unset;
-    border-radius: 0;
-    z-index: 1;
-    position: unset;
-    justify-content: center;
-    width: auto;
-    transform: unset;
-    * {
-      margin-top: 0;
-    }
-  }
-`;
+// const NavLinkWrapper = styled.div`
+//   top: -10%;
+//   opacity: 0;
+//   z-index: -1;
+//   ${({ isShow }) =>
+//     isShow && `top: calc(100% + 12px);opacity:1;z-index:1;padding:1rem;`}
+//   position: absolute;
+//   background: #fff;
+//   box-shadow: 0 8px 5px rgba(0, 0, 0, 0.1);
+//   transition: 0.2s ease-in-out;
+//   border: 1px solid rgba(0, 0, 0, 0.1);
+//   border-radius: 20px;
+//   flex-direction: column;
+//   left: -200%;
+//   width: 200px;
+//   transform: translateX(-50%);
+//   & > * + * {
+//     margin-top: 1rem;
+//   }
+//   @media screen and (min-width: 768px) {
+//     opacity: 1;
+//     flex-direction: row;
+//     box-shadow: unset;
+//     background: transparent;
+//     border: unset;
+//     border-radius: 0;
+//     z-index: 1;
+//     position: unset;
+//     justify-content: center;
+//     width: auto;
+//     transform: unset;
+//     * {
+//       margin-top: 0;
+//     }
+//   }
+// `;
 
 const StyledAddress = styled(OutlineButton)`
   padding: 8px 1rem;
@@ -135,7 +138,9 @@ const RenderConnectButton = (
   if (window.ethereum) {
     if (!account) {
       return (
-        <OutlineButton onClick={handleConnect}>Connect Wallet</OutlineButton>
+        <OutlineButton onClick={handleConnect}>
+          Connect Wallet
+        </OutlineButton>
       );
     }
   } else {
@@ -210,11 +215,12 @@ const Navbar = ({ account, networkId, openModalHandler, myRefCode }) => {
         className="container h-100 position-relative"
       >
         <a
-          alignItems="center"
-          href="https://winerydao.day/"
+          href="https://au.milkywaygalaxy.io/"
           style={{ textDecoration: "unset" }}
+          className='logo'
         >
-          <StyledLogoIcon src="/image.png" width="150px" />
+          <StyledLogoIcon className='logoImage' src={logo} width="80px" />
+          <div>Another</div>
         </a>
 
         {/* <div
@@ -289,29 +295,28 @@ const Navbar = ({ account, networkId, openModalHandler, myRefCode }) => {
                 Guide
               </Text>
             </a>
-            <Flex
-              alignItems="center"
-              style={!isMobile ? { display: "none" } : {}}
+             */}
+        <Flex
+          alignItems="center"
+          style={!isMobile ? { display: "none" } : {}}
+        >
+          {networkId != process.env.REACT_APP_CHAIN_ID && account ? (
+            <OutlineButton
+              onClick={() =>
+                switchNetworkHandler(process.env.REACT_APP_CHAIN_ID)
+              }
             >
-              {networkId != process.env.REACT_APP_CHAIN_ID && account ? (
-                <OutlineButton
-                  onClick={() =>
-                    switchNetworkHandler(process.env.REACT_APP_CHAIN_ID)
-                  }
-                >
-                  Wrong network
-                </OutlineButton>
-              ) : (
-                RenderConnectButton(
-                  account,
-                  handleConnect,
-                  openModalHandler,
-                  myRefCode
-                )
-              )}
-            </Flex>
-          </NavLinkWrapper>
-        </div> */}
+              Wrong network
+            </OutlineButton>
+          ) : (
+            RenderConnectButton(
+              account,
+              handleConnect,
+              openModalHandler,
+              myRefCode
+            )
+          )}
+        </Flex>
 
         <Flex alignItems="center" style={isMobile ? { display: "none" } : {}}>
           {networkId != process.env.REACT_APP_CHAIN_ID && account ? (
@@ -331,8 +336,8 @@ const Navbar = ({ account, networkId, openModalHandler, myRefCode }) => {
             )
           )}
         </Flex>
-      </Flex>
-    </NavWrapper>
+      </Flex >
+    </NavWrapper >
   );
 };
 
