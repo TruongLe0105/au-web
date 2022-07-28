@@ -1,0 +1,20 @@
+.containerExchange {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2000;
+    color: white;
+    padding: 1rem;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    padding-top: 20%;
+}
+
+.wrapperConnect {}
+
+.wrapperConfirm {}

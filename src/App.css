@@ -10,6 +10,7 @@ body {
   margin: 0;
   height: 100%;
   position: relative;
+  user-select: none;
 }
 
 .containerTreasure {
@@ -25,11 +26,14 @@ body {
 
 .heading {
   font-size: 2.5rem;
-  color: white;
+  color: #00BDFF;
   z-index: 100;
   text-transform: uppercase;
 }
 
+.myTreasure {
+  display: none;
+}
 .wrapperItem {
   width: 50%;
   display: flex;
@@ -39,17 +43,29 @@ body {
   color: white;
 }
 
+.itemAll {
+  width: 100%;
+  z-index: 100;
+}
 .item {
   width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
   margin: 1rem 0;
   position: relative;
 }
 
-.item:hover {
+.elementInItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 80%;
+  max-width: 80%;
+  height: 100%;
+}
+
+.itemAll:hover .item {
   box-shadow: 3px -4px 13px -4px rgba(137, 163, 255, 0.88);
   animation: myrotate 0.4s linear;
 }
@@ -59,6 +75,15 @@ body {
   animation: mymove 0.2s ease-in;
 }
 
+.itemInMobile {
+  box-shadow: 3px -4px 13px -4px rgba(137, 163, 255, 0.88);
+  animation: myrotate 0.4s linear;
+}
+
+.itemInMobile .buttonExchange {
+  display: block;
+  animation: mymove 0.2s ease-in;
+}
 .logo {
   display: flex;
   flex-direction: row;
@@ -124,26 +149,30 @@ body {
   top: 50%;
   transform: translateY(-170%);
   right: 0;
-  border: 1px solid white;
+  border: 1px solid red;
+    color: #ed1c51;
   border-radius: 0.5rem;
   padding: 0.5rem;
-  background-color: red;
+  background-color: white;
   font-size: 1rem;
   display: none;
   cursor: pointer;
   z-index: 100;
+  font-weight: 700;
+    text-decoration: none;
+  }
+  
+  .newStyle {
+    opacity: 0.7;
 }
 
 .buttonExchange:hover {
   padding: 0.6rem;
-  background-color: #fff;
-  color: red;
+  background-color: red;
+    color: white;
 }
 
 @media (max-width: 768px) {
-  html {
-    font-size: 20px;
-  }
 
   .wrapperItem {
     width: 100%;
@@ -157,11 +186,12 @@ body {
   }
 
   .containerTreasure {
-    font-size: 1rem;
+    font-size: 1.2rem;
+      margin-top: 6rem;
   }
 
   .buttonExchange {
-    font-size: 0.5rem;
+    font-size: 0.7rem;
     padding: 0.5rem;
   }
 
@@ -173,12 +203,15 @@ body {
     width: 40px;
   }
 
-  .connect {
-    font-size: 0.5rem;
-    background-color: black;
-  }
-
-  .heading {
-    font-size: 1.5rem;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                .heading {
+                                                                                                                                                                                                                                                                  display: none;
+                                                                                                                                                                                                                                                                  }
+                                                                                                                                                                                                                                                                  
+                                                                                                                                                                                                                                                                  .myTreasure {
+                                                                                                                                                                                                                                                                    display: block;
+                                                                                                                                      font-size: 1.5rem;
+color: #00BDFF;
+  z-index: 100;
+  text-transform: uppercase;
   }
 }

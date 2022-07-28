@@ -103,6 +103,10 @@ export const StyledButton = styled.button`
   &:hover {
     filter: brightness(1.1);
   }
+
+  @media (max-width: 768px) {
+    padding: 0.5rem
+  }
 `;
 
 export const OutlineButton = styled(StyledButton)`
@@ -124,6 +128,53 @@ export const OutlineButton = styled(StyledButton)`
     right: -2px;
     position: absolute;
     z-index: -1;
+  }
+  animation: shaking 1s linear;
+
+  @keyframes shaking {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    10% {
+        transform: rotate(-5deg);
+    }
+
+    20% {
+        transform: rotate(5deg);
+    }
+
+    30% {
+        transform: rotate(-5deg);
+    }
+
+    40% {
+        transform: rotate(0deg);
+    }
+
+    50% {
+        transform: rotate(5deg);
+    }
+
+    60% {
+        transform: rotate(0deg);
+    }
+
+    70% {
+        transform: rotate(-5deg);
+    }
+
+    80% {
+        transform: rotate(5deg);
+    }
+
+    90% {
+        transform: rotate(-5deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
   }
 `;
 

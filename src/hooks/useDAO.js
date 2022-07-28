@@ -478,14 +478,14 @@ const useMarketHook = () => {
   const getListTreasure = async (address, accessToken) => {
     try {
       const data = await axios.get(
-        `${process.env.REACT_APP_LIST_TREASURE}/api/treasure/getByWallet?address=${address}`,
+        `${process.env.REACT_APP_LIST_TREASURE}/getByWallet?address=${address}`,
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`
-          }
+            Authorization: `Bearer ${accessToken}`,
+          },
         }
       );
-      return data.data;
+      return data.data.data;
     } catch (e) {
       console.log("Get list treasure:", e)
     }

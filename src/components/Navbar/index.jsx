@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { AppContext } from "../../AppContext";
@@ -10,7 +10,8 @@ import { GradientText } from "../commonStyle";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import logo from '../../assets/image/logo.png';
-import '../../App.css'
+import '../../App.css';
+import './index.css';
 
 
 export const NAV_HEIGHT = "100px";
@@ -24,6 +25,9 @@ const NavWrapper = styled.div`
   z-index: 1000;
   background-color:rgb(19, 19, 19);
   height: ${NAV_HEIGHT};
+  @media (max-width: 768px) {
+    height:80px;
+  }
 `;
 
 const StyledLogoIcon = styled.img`
@@ -107,8 +111,18 @@ const RenderConnectButton = (
   account,
   handleConnect,
   openModalHandler,
-  myRefCode
+  myRefCode,
+  
+  
 ) => {
+  
+  // const [shaking, setShaking] = useState(false);
+  // console.log("shaking", shaking);
+
+  // useEffect(() => {
+  //   setShaking(alert)
+  // }, [alert])
+
   const onCopyRef = () => {
     navigator.clipboard.writeText(
       `${process.env.REACT_APP_WEB_DOMAIN}/market?ref=${myRefCode}`
@@ -138,9 +152,11 @@ const RenderConnectButton = (
   if (window.ethereum) {
     if (!account) {
       return (
-        <OutlineButton onClick={handleConnect}>
-          Connect Wallet
-        </OutlineButton>
+          // <div className={shaking ?"alert" : ""}>
+            <OutlineButton onClick={handleConnect}>
+            Connect Wallet
+            </OutlineButton>
+          // </div>
       );
     }
   } else {
@@ -195,7 +211,7 @@ function useQuery() {
   return React.useMemo(() => new URLSearchParams(search), [search]);
 }
 
-const Navbar = ({ account, networkId, openModalHandler, myRefCode }) => {
+const Navbar = ({ account, networkId, openModalHandler, myRefCode,   }) => {
   const { handleConnect, switchNetworkHandler } = useContext(AppContext);
   const { pathname } = useLocation();
   const [isShowLink, setShowLink] = React.useState(false);
@@ -204,6 +220,7 @@ const Navbar = ({ account, networkId, openModalHandler, myRefCode }) => {
   useClickOutside(navRef, () => {
     if (isShowLink) setShowLink(false);
   });
+
 
   const query = useQuery();
 
@@ -222,6 +239,7 @@ const Navbar = ({ account, networkId, openModalHandler, myRefCode }) => {
           <StyledLogoIcon className='logoImage' src={logo} width="80px" />
           <div>Another</div>
         </a>
+        <div className="heading">My treasure</div>
 
         {/* <div
           className="position-relative mx-md-auto "
@@ -301,7 +319,7 @@ const Navbar = ({ account, networkId, openModalHandler, myRefCode }) => {
           style={!isMobile ? { display: "none" } : {}}
         >
           {networkId != process.env.REACT_APP_CHAIN_ID && account ? (
-            <OutlineButton
+              <OutlineButton
               onClick={() =>
                 switchNetworkHandler(process.env.REACT_APP_CHAIN_ID)
               }
@@ -313,14 +331,16 @@ const Navbar = ({ account, networkId, openModalHandler, myRefCode }) => {
               account,
               handleConnect,
               openModalHandler,
-              myRefCode
+              myRefCode,
+              
+              
             )
           )}
         </Flex>
 
         <Flex alignItems="center" style={isMobile ? { display: "none" } : {}}>
           {networkId != process.env.REACT_APP_CHAIN_ID && account ? (
-            <OutlineButton
+              <OutlineButton
               onClick={() =>
                 switchNetworkHandler(process.env.REACT_APP_CHAIN_ID)
               }
@@ -332,7 +352,9 @@ const Navbar = ({ account, networkId, openModalHandler, myRefCode }) => {
               account,
               handleConnect,
               openModalHandler,
-              myRefCode
+              myRefCode,
+              
+              
             )
           )}
         </Flex>
