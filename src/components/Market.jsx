@@ -168,36 +168,6 @@ const Market = ({ account }) => {
       alignItems:"center",
       fontSize:'2rem'
     }}>
-      {LIST.map((item, index) => (
-          <div key={index} style={{
-            width:'40%',
-              display: 'flex',
-              flexDirection:'row',
-              alignItems:'center',
-              justifyContent:'space-between'
-            }}>
-            <div style={{
-              display: 'flex',
-              flexDirection:'row',
-            }}>
-              <div style={{
-                  width: '20px',
-                  height: '20px',
-                }}>
-                  <img src={item.img} alt={item.starName} style={{width:'100%', height:'100%'}} />
-                </div>
-                <div>{item.starName}</div>
-            </div>
-            <div style={{
-              display:'flex',
-              flexDirection:'row',
-              color:'yellow'
-            }}>
-              <div>{item.total}</div>
-              <div>{tokenContractor[item.token]}</div>
-            </div>
-          </div>
-      ))}
     </div>
   );
 };

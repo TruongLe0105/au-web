@@ -475,21 +475,21 @@ const useMarketHook = () => {
     }
   };
 
-  const getListTreasure = async (address, accessToken) => {
+  const getListTreasure = async (address) => {
     try {
       const data = await axios.get(
-        `${process.env.REACT_APP_LIST_TREASURE}/getByWallet?address=${address}`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
+        `${process.env.REACT_APP_LIST_TREASURE}/getByWallet?address=${address}`
+        // {
+        //   headers: {
+        //     Authorization: `Bearer ${accessToken}`,
+        //   },
+        // }
       );
       return data.data.data;
     } catch (e) {
-      console.log("Get list treasure:", e)
+      console.log("Get list treasure:", e);
     }
-  }
+  };
 
   return {
     getListOptionSell,

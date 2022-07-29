@@ -1,5 +1,41 @@
-.alert {
+:root {
+    font-family: 'Chakra Petch', sans-serif;
+  }
+  
+  html {
+    height: 100%;
+  }
+  
+  body {
+    margin: 0;
+    height: 100%;
+    position: relative;
+    user-select: none;
+  }
+
+.connectBtnWallet {
+    width: 200px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index:20000;
+}
+
+.connectBtnWallet:hover {
     animation: shaking 0.5s ease-in;
+}
+
+.titleConnectWallet {
+   color: white;
+   z-index: 1000;
+   font-size: 1.2rem;
+}
+
+.imageConnectWallet {
+    width: 100%;
+    position: absolute;
 }
 
 @keyframes shaking {
@@ -47,4 +83,20 @@
         transform: rotate(0deg);
     }
 
+}
+
+@media (max-width: 768px) {
+    .borderBtnLarge {
+        width:155px;
+        height:40px;
+    }
+
+    .connectBtnWallet {
+        width: 170px;
+        height: 50px;
+    }
+
+    .titleConnectWallet {
+        font-size: 1rem;
+    }
 }

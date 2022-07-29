@@ -1,0 +1,25 @@
+.buttonRight {
+    transform: scale(-1);
+}
+.contentBtnExchange{
+    font-size: 0.8rem;
+    display: flex;
+    align-self: center;
+    color: white;
+    z-index: 200;
+}
+
+.borderBtnDefault {
+    position: relative;
+    width: 130px;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+}
+
+@media (max-width: 768px) {
+    .borderBtnDefault {
+        width: 100px;
+    height: 30px;
+    }
+}

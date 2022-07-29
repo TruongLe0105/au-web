@@ -11,9 +11,8 @@ ReactDOM.render(
     <AppContext>
       <App />
     </AppContext>
-  </Router>
-  ,
-  document.getElementById('root'),
+  </Router>,
+  document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change

@@ -1,34 +1,28 @@
-:root {
-  font-family: 'DM Sans', sans-serif;
-}
 
-html {
-  height: 100%;
-}
-
-body {
-  margin: 0;
-  height: 100%;
-  position: relative;
-  user-select: none;
-}
 
 .containerTreasure {
   font-size: 2rem;
-  z-index: 100;
+  z-index: 200;
   margin-top: 8rem;
   display: flex;
   align-items: center;
   flex-direction: column;
   flex-wrap: wrap;
   width: 100%;
+  font-size: 1.2rem;
 }
 
 .heading {
-  font-size: 2.5rem;
+  font-size: 1.7rem;
   color: #00BDFF;
-  z-index: 100;
+  z-index: 300;
   text-transform: uppercase;
+  font-weight: 700;
+  /* font-style: ; */
+  position: absolute;
+  top:10;
+  left:50%;
+  transform: translate(-50%);
 }
 
 .myTreasure {
@@ -39,6 +33,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   padding: 0 1rem;
   color: white;
 }
@@ -46,13 +41,19 @@ body {
 .itemAll {
   width: 100%;
   z-index: 100;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  background-color: transparent;
 }
 .item {
   width: 100%;
+  height:100%;
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 1rem 0;
+  justify-content: center;
+  padding: 0.5rem 0;
   position: relative;
 }
 
@@ -65,25 +66,11 @@ body {
   height: 100%;
 }
 
-.itemAll:hover .item {
-  box-shadow: 3px -4px 13px -4px rgba(137, 163, 255, 0.88);
-  animation: myrotate 0.4s linear;
-}
-
-.item:hover .buttonExchange {
-  display: block;
-  animation: mymove 0.2s ease-in;
-}
-
 .itemInMobile {
   box-shadow: 3px -4px 13px -4px rgba(137, 163, 255, 0.88);
   animation: myrotate 0.4s linear;
 }
 
-.itemInMobile .buttonExchange {
-  display: block;
-  animation: mymove 0.2s ease-in;
-}
 .logo {
   display: flex;
   flex-direction: row;
@@ -91,92 +78,93 @@ body {
 }
 
 .logo>div {
-  color: #ed1c51;
+  color: #fff;
   font-size: 2rem
 }
 
-.logo:hover {
-  animation: myscale 0.5s linear;
+.backgroundScreenSmall {
+  display: none;
 }
 
-/* .item:hover .wrapperImage {
-  animation: myrotate 0.2s linear;
-} */
-
-@keyframes myrotate {
-  from {
-    transform: rotateY(-20deg);
-  }
-
-  to {
-    transform: rotateY(20deg);
-  }
+.wrapperHeaderImage {
+  position: fixed;
+  width: 100%;
+  height: 120px;
+  top:0;
+  left:0;
+  right: 0;
+  z-index: 400;
 }
 
-@keyframes myscale {
-  from {
-    transform: scale(0.8);
-  }
-
-  to {
-    transform: scale(1);
-  }
-}
-
-@keyframes mymove {
-  from {
-    transform: translateY(0);
-  }
-
-  to {
-    transform: translateY(60);
-  }
-}
-
-.wrapperImage {
-  width: 5rem;
-  height: 5rem;
-  margin-right: 1rem;
-}
-
-.image {
+.headerImage{
   width: 100%;
   height: 100%;
 }
 
-.buttonExchange {
+.wrapperImage {
+  width: 6rem;
+  height: 6rem;
+  margin-right: 1rem;
+  border-radius: 4rem;
+  overflow: hidden;
+}
+.wrapperPilotEarthImage {
+  position: fixed;
+  width: 130px;
+  right: 15%;
+  bottom: 10%;
+  z-Index: 100;
+}
+
+.wrapperPilotImage {
+  position: fixed;
+  width: 100px;
+  left: 13%;
+  top: 0;
+  z-Index: 400;
+}
+
+.image {
+  width: 100%;
+}
+
+.pilotImage {
+  width: 100%;
+}
+
+.wrapperBtnExchange {
+  position: relative;
+  align-self: flex-end;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height:40px;
+  width: 120px;
+}
+
+.exchangeImage {
   position: absolute;
-  top: 50%;
-  transform: translateY(-170%);
-  right: 0;
-  border: 1px solid red;
-    color: #ed1c51;
-  border-radius: 0.5rem;
-  padding: 0.5rem;
-  background-color: white;
-  font-size: 1rem;
-  display: none;
-  cursor: pointer;
-  z-index: 100;
-  font-weight: 700;
-    text-decoration: none;
-  }
+  width: 100%;
+  height:100%;
+}
+
+.itemAll:hover .wrapperBtnExchange {
+  transform: scale(1.05);
+}
   
   .newStyle {
     opacity: 0.7;
 }
 
-.buttonExchange:hover {
-  padding: 0.6rem;
-  background-color: red;
-    color: white;
-}
-
 @media (max-width: 768px) {
+
+  .itemAll {
+    padding: 0 0.5rem;
+  }
 
   .wrapperItem {
     width: 100%;
-    padding: 0 2rem;
   }
 
   .wrapperImage {
@@ -185,14 +173,13 @@ body {
     margin-right: 1rem;
   }
 
-  .containerTreasure {
-    font-size: 1.2rem;
-      margin-top: 6rem;
+  .elementInItem {
+    margin-left: 1rem;
   }
 
-  .buttonExchange {
-    font-size: 0.7rem;
-    padding: 0.5rem;
+  .containerTreasure {
+    font-size: 1rem;
+      margin-top: 5rem;
   }
 
   .logo>div {
@@ -200,18 +187,68 @@ body {
   }
 
   .logo .logoImage {
-    width: 40px;
+    width: 60px;
   }
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                .heading {
-                                                                                                                                                                                                                                                                  display: none;
-                                                                                                                                                                                                                                                                  }
-                                                                                                                                                                                                                                                                  
-                                                                                                                                                                                                                                                                  .myTreasure {
-                                                                                                                                                                                                                                                                    display: block;
-                                                                                                                                      font-size: 1.5rem;
-color: #00BDFF;
+ .heading {
+  display: none;
+ }  
+
+ .myTreasure {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  display: block;
+  color: #00BDFF;
   z-index: 100;
   text-transform: uppercase;
   }
-}
+
+  .wrapperBtnExchange {
+    margin-bottom: 0.2rem;
+    margin-right: 4rem;
+    height:30px;
+    width: 100px;
+  }
+
+  .wrapperBtnExchange > div {
+    font-size: 0.7rem;
+  }
+
+  .pilotImage {
+    width: 60%;
+  }
+
+  .wrapperBtnExchange {
+    width: 100px;
+  }
+
+  .backgroundScreenLarge {
+    display: none;
+  }
+
+  .backgroundScreenSmall {
+    display: block;
+  }
+
+  .headerImage {
+    height: 70px;
+  }
+
+  .wrapperPilotImage {
+    display: none;
+  }
+
+  .wrapperPilotEarthImage {
+    position: fixed;
+    width: 120px;
+    left: 13%;
+    top: 5px;
+    z-Index: 400;
+  }
+};
+
+
+
+
+

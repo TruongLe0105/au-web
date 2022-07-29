@@ -40,6 +40,7 @@ const AppContextProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleConnect = async () => {
+    console.log("here");
     await window.ethereum.enable();
   };
 

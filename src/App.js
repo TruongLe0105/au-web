@@ -5,22 +5,30 @@ import { AppContext } from "./AppContext";
 
 import Navbar from "./components/Navbar";
 
-import BgPopup from "./assets/image/bg-popup-star.png";
+import BgPopup from "./assets/image/background.png";
+import BgMedia from "./assets/image/backgroundScreenSmall.png";
 
 import useDAO from "./hooks/useDAO";
-import { toast } from "react-toastify";
 
-import { isMobile } from "react-device-detect";
-import ModalExchange from "./components/Modal/ModalExchange";
-import AlertMsg from "./components/AlertMsg";
+import Treasure from "./assets/image/treasure.png";
+import btnExchange from "./assets/image/btnExchange.png";
+
+import Card from "./assets/image/card.png";
+import Pilot from "./assets/image/pilot.png";
+import PilotEarth from "./assets/image/pilotEarth.png";
+import bgHeader from "./assets/image/bg-button.png";
+import useWeb3 from "./hooks/useWeb3";
+import { BUSD_TOKEN_ADDRESS } from "./config";
+// import { BUSD_TOKEN_ADDRESS } from "../config";
 
 function App() {
-  const { account, networkId, myRefCode } = useContext(AppContext);
+  const { web3, account, networkId, myRefCode } = useContext(AppContext);
+  const { onApproveHandler, checkApprove } = useWeb3(account);
+  const [isApproved, setApproved] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+
   const [list, setList] = useState([]);
   const [isShowAcc, setShowAcc] = useState(false);
-  const [isConnect, setIsConnect] = useState(false);
-  const [active, setActive] = useState();
-  const [alert, setAlert] = useState(false);
 
   const closeModalHandler = useCallback(() => setShowAcc(false), []);
   const openModalHandler = useCallback(() => setShowAcc(true), []);
@@ -32,152 +40,128 @@ function App() {
   };
 
   const addressWallet = "0xf8ead57a5a68b490a85e9c8c99728c52c84432d5";
-  const accessToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhvYW5nLmRhaS50aHVjQGdtYWlsLmNvbSIsInN1YiI6IjE0OTljODYwLWUwNzQtNGY1Ny1iYWNlLTllMmYwY2UwMTUxNSIsImlhdCI6MTY1ODIxMTczMSwiZXhwIjoxNjU4Mjk4MTMxfQ.1wxgsm8aNImE-eSIXxf7VlEPxuRvbOyNw7sy6s3eDJI";
+  // const accessToken =
+  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhvYW5nLmRhaS50aHVjQGdtYWlsLmNvbSIsInN1YiI6IjE0OTljODYwLWUwNzQtNGY1Ny1iYWNlLTllMmYwY2UwMTUxNSIsImlhdCI6MTY1ODIxMTczMSwiZXhwIjoxNjU4Mjk4MTMxfQ.1wxgsm8aNImE-eSIXxf7VlEPxuRvbOyNw7sy6s3eDJI";
 
   const LIST = [
     {
-      starName: "Star1Teststaragainlengthofmystarstarstartstarstar",
+      starName: "Star1",
       total: 1,
       token: "0xae13d989dac2f0debff460ac112a837c89baa7cd",
-      img: "https:milkywaygalaxy-2.s3.amazonaws.com/milkywaygalaxy-21658742316611-gianghandsome.png",
+      img: Treasure,
     },
     {
       starName: "Star2",
       total: 1,
       token: "0xae13d989dac2f0debff460ac112a837c89baa7cd",
-      img: "https:milkywaygalaxy-2.s3.amazonaws.com/milkywaygalaxy-21658742316611-gianghandsome.png",
+      img: Treasure,
     },
     {
       starName: "Star3",
       total: 1,
       token: "0xae13d989dac2f0debff460ac112a837c89baa7cd",
-      img: "https:milkywaygalaxy-2.s3.amazonaws.com/milkywaygalaxy-21658742316611-gianghandsome.png",
+      img: Treasure,
     },
     {
       starName: "Star4",
       total: 1,
       token: "0xae13d989dac2f0debff460ac112a837c89baa7cd",
-      img: "https:milkywaygalaxy-2.s3.amazonaws.com/milkywaygalaxy-21658742316611-gianghandsome.png",
+      img: Treasure,
     },
     {
       starName: "Star5",
       total: 1,
       token: "0xae13d989dac2f0debff460ac112a837c89baa7cd",
-      img: "https:milkywaygalaxy-2.s3.amazonaws.com/milkywaygalaxy-21658742316611-gianghandsome.png",
+      img: Treasure,
     },
     {
       starName: "Star6",
       total: 1,
       token: "0xae13d989dac2f0debff460ac112a837c89baa7cd",
-      img: "https:milkywaygalaxy-2.s3.amazonaws.com/milkywaygalaxy-21658742316611-gianghandsome.png",
+      img: Treasure,
     },
     {
       starName: "Star7",
       total: 1,
       token: "0xae13d989dac2f0debff460ac112a837c89baa7cd",
-      img: "https:milkywaygalaxy-2.s3.amazonaws.com/milkywaygalaxy-21658742316611-gianghandsome.png",
+      img: Treasure,
     },
     {
       starName: "Star7",
       total: 1,
       token: "0xae13d989dac2f0debff460ac112a837c89baa7cd",
-      img: "https:milkywaygalaxy-2.s3.amazonaws.com/milkywaygalaxy-21658742316611-gianghandsome.png",
+      img: Treasure,
     },
     {
       starName: "Star7",
       total: 1,
       token: "0xae13d989dac2f0debff460ac112a837c89baa7cd",
-      img: "https:milkywaygalaxy-2.s3.amazonaws.com/milkywaygalaxy-21658742316611-gianghandsome.png",
+      img: Treasure,
     },
     {
       starName: "Star7",
       total: 1,
       token: "0xae13d989dac2f0debff460ac112a837c89baa7cd",
-      img: "https:milkywaygalaxy-2.s3.amazonaws.com/milkywaygalaxy-21658742316611-gianghandsome.png",
+      img: Treasure,
     },
     {
       starName: "Star7",
       total: 1,
       token: "0xae13d989dac2f0debff460ac112a837c89baa7cd",
-      img: "https:milkywaygalaxy-2.s3.amazonaws.com/milkywaygalaxy-21658742316611-gianghandsome.png",
+      img: Treasure,
     },
     {
       starName: "Star7",
       total: 1,
       token: "0xae13d989dac2f0debff460ac112a837c89baa7cd",
-      img: "https:milkywaygalaxy-2.s3.amazonaws.com/milkywaygalaxy-21658742316611-gianghandsome.png",
+      img: Treasure,
     },
     {
       starName: "Star7",
       total: 1,
       token: "0xae13d989dac2f0debff460ac112a837c89baa7cd",
-      img: "https:milkywaygalaxy-2.s3.amazonaws.com/milkywaygalaxy-21658742316611-gianghandsome.png",
+      img: Treasure,
     },
   ];
 
   const { getListTreasure } = useDAO();
 
   const fetchData = async () => {
-    const data = await getListTreasure(addressWallet, accessToken);
-    setList(data);
+    const data = await getListTreasure(addressWallet);
+    setList(data[0]);
   };
 
   useEffect(() => {
     fetchData();
-    console.log("LISTTreasure", list);
-  }, []);
+    loadAllowance();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [account]);
 
-  const item = document.getElementsByClassName("item");
-  const btnExchange = document.getElementsByClassName("buttonExchange");
+  console.log("LISTTreasure", list);
 
-  const handleClick = (index) => {
-    if (isMobile) {
-      setActive(index);
-      const prevIndex = active;
-      if (index === prevIndex) {
-        item[index].classList.toggle("itemInMobile");
-      } else {
-        item[index].classList.add("itemInMobile");
-        prevIndex >= 0 && item[prevIndex].classList.remove("itemInMobile");
-      }
+  const itemCard = {
+    backgroundImage: `url(${Card})`,
+  };
+
+  const loadAllowance = async () => {
+    const isApproved = await checkApprove(web3, BUSD_TOKEN_ADDRESS, 18);
+
+    if (isApproved) {
+      setApproved(true);
+    } else {
+      setApproved(false);
     }
   };
+  const onApprove = async () => {
+    setLoading(true);
 
-  const handleOnMouseDownLarge = (index) => {
-    if (isMobile) {
-      item[index].classList.add("newStyle");
-    }
-  };
-  const handleOnMouseUpLarge = (index) => {
-    if (isMobile) {
-      item[index].classList.remove("newStyle");
-    }
+    const isSuccess = await onApproveHandler(web3, BUSD_TOKEN_ADDRESS);
+    setApproved(isSuccess);
+
+    setLoading(false);
   };
 
-  const handleOnMouseDown = (e, index) => {
-    e.stopPropagation();
-    btnExchange[index].classList.add("newStyle");
-  };
-  const handleOnMouseUp = (e, index) => {
-    e.stopPropagation();
-    btnExchange[index].classList.remove("newStyle");
-  };
-
-  const handleExchange = (e, index) => {
-    e.stopPropagation();
-    toast.warning("You don't connect wallet!");
-
-    // setActive(index);
-
-    // const prevIndex = active;
-    // if (index === prevIndex) {
-    //   item[index].classList.toggle("itemInMobile");
-    // } else {
-    //   item[index].classList.add("itemInMobile");
-    //   prevIndex >= 0 && item[prevIndex].classList.remove("itemInMobile");
-    // }
-  };
+  console.log("ACCOUNT", account);
 
   return (
     <div
@@ -188,17 +172,19 @@ function App() {
         left: 0,
       }}
     >
+      <div className="wrapperHeaderImage">
+        <img src={bgHeader} alt="header" className="headerImage" />
+      </div>
       <GlobalStyled />
-      <AlertMsg />
       <Navbar
         account={account}
         networkId={networkId}
         openModalHandler={openModalHandler}
         myRefCode={myRefCode}
-        alert={alert}
       />
       <img
         src={BgPopup}
+        className="backgroundScreenLarge"
         alt="Item"
         style={{
           width: "100%",
@@ -207,68 +193,69 @@ function App() {
           left: 0,
           right: 0,
           top: 0,
+          zIndex: 100,
         }}
       />
+      <img
+        src={BgMedia}
+        alt="Item"
+        className="backgroundScreenSmall"
+        style={{
+          width: "100%",
+          height: "100%",
+          position: "absolute",
+          left: 0,
+          right: 0,
+          top: 0,
+          zIndex: 100,
+        }}
+      />
+      <div className="wrapperPilotEarthImage">
+        <img src={PilotEarth} alt="Pilot" className="pilotImage" />
+      </div>
+      <div className="wrapperPilotImage">
+        <img src={Pilot} alt="Pilot" className="pilotImage" />
+      </div>
       <div className="containerTreasure" id="container">
         <div className="myTreasure">My treasure</div>
         <div className="wrapperItem">
-          {LIST.map((item, index) => (
+          {list.map((item, index) => (
             <div key={index} className="itemAll">
-              <div
-                key={index}
-                className="item"
-                onMouseUp={(e) => handleOnMouseUpLarge(index)}
-                onMouseDown={(e) => handleOnMouseDownLarge(index)}
-                onClick={() => handleClick(index)}
-              >
+              <div style={itemCard} key={index} className="item">
                 <div className="elementInItem">
-                  {isConnect ? (
-                    <a
-                      className="buttonExchange"
-                      href="https://au.milkywaygalaxy.io/"
-                    >
-                      Exchange
-                    </a>
-                  ) : (
-                    <div
-                      onMouseUp={(e) => handleOnMouseUp(e, index)}
-                      onMouseDown={(e) => handleOnMouseDown(e, index)}
-                      onClick={(e) => handleExchange(e, index)}
-                      className="buttonExchange"
-                    >
-                      Exchange
-                    </div>
-                  )}
                   <div className="wrapperImage">
-                    <img src={item.img} alt={item.starName} className="image" />
+                    <img src={item.imgUrl} alt={item.name} className="image" />
                   </div>
-                  <div style={{ maxWidth: "80%" }}>
-                    {item.starName.length > 25
-                      ? `${item.starName.slice(0, 25)}...`
-                      : item.starName}
+                  <div
+                    style={{
+                      maxWidth: "80%",
+                      alignItems: "center",
+                    }}
+                  >
+                    {item?.name?.length > 25
+                      ? `${item.name.slice(0, 25)}...`
+                      : item.name}
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        color: "yellow",
+                        marginTop: "0.7rem",
+                      }}
+                    >
+                      <div style={{ marginRight: "0.5rem" }}>{item.total}</div>
+                      <div>{tokenContractor[item.tokenContract]}</div>
+                    </div>
                   </div>
                 </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "flex-end",
-                    color: "yellow",
-                    width: "20%",
-                  }}
-                >
-                  <div style={{ marginRight: "1rem" }}>{item.total}</div>
-                  <div>{tokenContractor[item.token]}</div>
+                <div className="wrapperBtnExchange">
+                  <div>Exchange</div>
+                  <img
+                    src={btnExchange}
+                    alt="Exchange"
+                    className="exchangeImage"
+                  />
                 </div>
-                <div
-                  style={{
-                    position: "absolute",
-                    width: "100%",
-                    height: "2px",
-                    backgroundColor: "rgba(255,255,255,0.2)",
-                    bottom: "-5px",
-                  }}
-                />
               </div>
             </div>
           ))}

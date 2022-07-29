@@ -1,32 +1,32 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { AppContext } from "../../AppContext";
-import { Flex, OutlineButton, Text } from "../SwapBoard";
+import { Flex, OutlineButton} from "../SwapBoard";
 import { isMobile } from "react-device-detect";
-import { ShowMoreIcon, CopyIcon } from "../Icons";
+import { CopyIcon } from "../Icons";
 import useClickOutside from "../../hooks/useClickOutside";
 import { GradientText } from "../commonStyle";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import logo from '../../assets/image/logo.png';
+import accessTokenBtn from "../../assets/image/accessTokenBtn.svg";
 import '../../App.css';
 import './index.css';
 
 
-export const NAV_HEIGHT = "100px";
+export const NAV_HEIGHT = "120px";
 
 const NavWrapper = styled.div`
   position: fixed;
   top: 0;
   width: 100%;
   padding: 1rem;
-  border-bottom: 1px solid #c4c4c4;
-  z-index: 1000;
-  background-color:rgb(19, 19, 19);
+  z-index: 300;
+  background-color: black;
   height: ${NAV_HEIGHT};
   @media (max-width: 768px) {
-    height:80px;
+    height:70px;
+    padding:0;
   }
 `;
 
@@ -36,76 +36,11 @@ const StyledLogoIcon = styled.img`
   margin-right: 8px;
 `;
 
-// const StyledLink = styled.div`
-//   transition: 0.2 ease-out;
-//   color: #000;
-//   font-weight: 700;
-//   ${({ active }) => active && `cursor:default;`}
-//   text-decoration: unset;
-//   /* position: relative; */
-//   text-align: center;
-//   :hover {
-//     opacity: 0.8;
-//     color: #000;
-//   }
-//   ${({ active }) =>
-//     active &&
-//     `
-//   :after {
-//     content: '';
-//     position: absolute;
-//     height: 2px;
-//     width: 100%;
-//     left: 0;
-//     background:-webkit-linear-gradient(-90deg, rgb(136, 3, 47), rgb(238, 21, 66))
-//   }
-//   `}
-// `;
-
-// const StyledMenuButton = styled(ShowMoreIcon)`
-//   cursor: pointer;
-// `;
-
-// const NavLinkWrapper = styled.div`
-//   top: -10%;
-//   opacity: 0;
-//   z-index: -1;
-//   ${({ isShow }) =>
-//     isShow && `top: calc(100% + 12px);opacity:1;z-index:1;padding:1rem;`}
-//   position: absolute;
-//   background: #fff;
-//   box-shadow: 0 8px 5px rgba(0, 0, 0, 0.1);
-//   transition: 0.2s ease-in-out;
-//   border: 1px solid rgba(0, 0, 0, 0.1);
-//   border-radius: 20px;
-//   flex-direction: column;
-//   left: -200%;
-//   width: 200px;
-//   transform: translateX(-50%);
-//   & > * + * {
-//     margin-top: 1rem;
-//   }
-//   @media screen and (min-width: 768px) {
-//     opacity: 1;
-//     flex-direction: row;
-//     box-shadow: unset;
-//     background: transparent;
-//     border: unset;
-//     border-radius: 0;
-//     z-index: 1;
-//     position: unset;
-//     justify-content: center;
-//     width: auto;
-//     transform: unset;
-//     * {
-//       margin-top: 0;
-//     }
-//   }
-// `;
 
 const StyledAddress = styled(OutlineButton)`
   padding: 8px 1rem;
 `;
+
 
 const RenderConnectButton = (
   account,
@@ -115,13 +50,6 @@ const RenderConnectButton = (
   
   
 ) => {
-  
-  // const [shaking, setShaking] = useState(false);
-  // console.log("shaking", shaking);
-
-  // useEffect(() => {
-  //   setShaking(alert)
-  // }, [alert])
 
   const onCopyRef = () => {
     navigator.clipboard.writeText(
@@ -152,11 +80,10 @@ const RenderConnectButton = (
   if (window.ethereum) {
     if (!account) {
       return (
-          // <div className={shaking ?"alert" : ""}>
-            <OutlineButton onClick={handleConnect}>
-            Connect Wallet
-            </OutlineButton>
-          // </div>
+            <div onClick ={handleConnect} className="connectBtnWallet">
+              <div className="titleConnectWallet">Connect Wallet</div>
+              <img src={accessTokenBtn} alt="Connect Wallet" className="imageConnectWallet" />
+            </div>
       );
     }
   } else {
@@ -206,14 +133,9 @@ const RenderConnectButton = (
     );
 };
 
-function useQuery() {
-  const { search } = useLocation();
-  return React.useMemo(() => new URLSearchParams(search), [search]);
-}
 
 const Navbar = ({ account, networkId, openModalHandler, myRefCode,   }) => {
   const { handleConnect, switchNetworkHandler } = useContext(AppContext);
-  const { pathname } = useLocation();
   const [isShowLink, setShowLink] = React.useState(false);
 
   const navRef = useRef(null);
@@ -222,7 +144,6 @@ const Navbar = ({ account, networkId, openModalHandler, myRefCode,   }) => {
   });
 
 
-  const query = useQuery();
 
   return (
     <NavWrapper>
@@ -237,83 +158,10 @@ const Navbar = ({ account, networkId, openModalHandler, myRefCode,   }) => {
           className='logo'
         >
           <StyledLogoIcon className='logoImage' src={logo} width="80px" />
-          <div>Another</div>
         </a>
         <div className="heading">My treasure</div>
 
-        {/* <div
-          className="position-relative mx-md-auto "
-          style={{ marginRight: 5 }}
-          ref={navRef}
-        >
-          <StyledMenuButton
-            width="25px"
-            onClick={() => setShowLink((prev) => !prev)}
-            className="d-md-none"
-          />
-
-          <NavLinkWrapper
-            className="d-flex align-items-center"
-            isShow={isShowLink}
-          >
-            <StyledLink
-              as={Link}
-              to={
-                query.get("ref") ? `/market?ref=${query.get("ref")}` : "/market"
-              }
-              className="text-center"
-              active={pathname.includes("market")}
-            >
-              <Text
-                fontSize="20px"
-                fontWeight={500}
-                className="ms-0"
-                color="inherit"
-              >
-                Market
-              </Text>
-            </StyledLink>
-
-            {account && (
-              <StyledLink
-                className={`ms-1 ms-md-5 text-center`}
-                as={Link}
-                to={
-                  query.get("ref")
-                    ? `/my-nft?ref=${query.get("ref")}`
-                    : "/my-nft"
-                }
-                active={pathname.includes("my-nft")}
-              >
-                <Text
-                  fontSize="20px"
-                  fontWeight={500}
-                  className="ms-0"
-                  color="inherit"
-                  textAlign="center"
-                >
-                  My NFT
-                </Text>
-              </StyledLink>
-            )}
-            <a
-              className={`ms-1 ms-md-5 text-center`}
-              style={{ textDecoration: "none", color: "black" }}
-              href="https://nftmarket.winerydao.day/upload/market-guide.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Text
-                fontSize="20px"
-                fontWeight={500}
-                className="ms-0"
-                color="inherit"
-                textAlign="center"
-              >
-                Guide
-              </Text>
-            </a>
-             */}
+        
         <Flex
           alignItems="center"
           style={!isMobile ? { display: "none" } : {}}
