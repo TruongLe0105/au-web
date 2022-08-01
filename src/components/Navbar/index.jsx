@@ -10,6 +10,7 @@ import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import logo from '../../assets/image/logo.png';
 import accessTokenBtn from "../../assets/image/accessTokenBtn.svg";
+import bgHeader from "../../assets/image/bg-button.png";
 import '../../App.css';
 import './index.css';
 
@@ -24,8 +25,13 @@ const NavWrapper = styled.div`
   z-index: 300;
   background-color: black;
   height: ${NAV_HEIGHT};
+  background-image: url(${bgHeader});
   @media (max-width: 768px) {
     height:70px;
+    padding:0;
+  }
+  @media screen and (min-width: 768px) and (max-width: 992px) {
+    height:90px;
     padding:0;
   }
 `;
@@ -33,7 +39,6 @@ const NavWrapper = styled.div`
 const StyledLogoIcon = styled.img`
   width: ${({ width }) => width ?? "100%"};
   height: auto;
-  margin-right: 8px;
 `;
 
 
@@ -89,33 +94,53 @@ const RenderConnectButton = (
   } else {
     if (isMobile)
       return (
-        <OutlineButton
+        // <OutlineButton
+        //   style={{ textDecoration: "none" }}
+        //   target="_blank"
+        //   as="a"
+        //   href={process.env.REACT_APP_METAMASK_DOMAIN}
+        // >
+        //   Connect Wallet
+        // </OutlineButton>
+        <div 
           style={{ textDecoration: "none" }}
-          target="_blank"
-          as="a"
-          href={process.env.REACT_APP_METAMASK_DOMAIN}
-        >
-          Connect Wallet
-        </OutlineButton>
+            target="_blank"
+            as="a"
+            href={process.env.REACT_APP_METAMASK_DOMAIN}
+          className="connectBtnWallet"
+          >
+          <div className="titleConnectWallet">Connect Wallet</div>
+          <img src={accessTokenBtn} alt="Connect Wallet" className="imageConnectWallet" />
+        </div>
       );
     return (
-      <OutlineButton
+      // <OutlineButton
+      //   as="a"
+      //   target="_blank"
+      //   href="https://metamask.io/download.html"
+      // >
+      //   Install Metamask
+      // </OutlineButton>
+      <div
         as="a"
         target="_blank"
         href="https://metamask.io/download.html"
-      >
-        Install Metamask
-      </OutlineButton>
+        className="connectBtnWallet">
+        <div className="titleConnectWallet">Install Metamask</div>
+        <img src={accessTokenBtn} alt="Connect Wallet" className="imageConnectWallet" />
+      </div>
+      
     );
   }
 
   if (account)
     return (
       <div>
-        <StyledAddress onClick={openModalHandler}>
-          {account.slice(0, 5)}...{account.slice(-5)}
-        </StyledAddress>
-        {myRefCode && (
+        <div className="connectBtnWallet" onClick={openModalHandler}>
+          <div className="titleConnectWallet">{account.slice(0, 5)}...{account.slice(-5)}</div>
+          <img src={accessTokenBtn} alt="Connect Wallet" className="imageConnectWallet" />
+        </div>
+        {/* {myRefCode && (
           <div className="d-flex mt-2">
             <GradientText
               className="mt-2 mx-0"
@@ -128,7 +153,7 @@ const RenderConnectButton = (
               fill="black"
             />
           </div>
-        )}
+        )} */}
       </div>
     );
 };
@@ -157,7 +182,7 @@ const Navbar = ({ account, networkId, openModalHandler, myRefCode,   }) => {
           style={{ textDecoration: "unset" }}
           className='logo'
         >
-          <StyledLogoIcon className='logoImage' src={logo} width="80px" />
+          <StyledLogoIcon className='logoImage' src={logo} />
         </a>
         <div className="heading">My treasure</div>
 
@@ -167,13 +192,19 @@ const Navbar = ({ account, networkId, openModalHandler, myRefCode,   }) => {
           style={!isMobile ? { display: "none" } : {}}
         >
           {networkId != process.env.REACT_APP_CHAIN_ID && account ? (
-              <OutlineButton
-              onClick={() =>
+            <div onClick={() =>
                 switchNetworkHandler(process.env.REACT_APP_CHAIN_ID)
-              }
-            >
-              Wrong network
-            </OutlineButton>
+              } className="connectBtnWallet">
+              <div className="titleConnectWallet"> Wrong network</div>
+              <img src={accessTokenBtn} alt="Connect Wallet" className="imageConnectWallet" />
+            </div>
+            //   <OutlineButton
+            //   onClick={() =>
+            //     switchNetworkHandler(process.env.REACT_APP_CHAIN_ID)
+            //   }
+            // >
+            //   Wrong network
+            // </OutlineButton>
           ) : (
             RenderConnectButton(
               account,
@@ -188,13 +219,19 @@ const Navbar = ({ account, networkId, openModalHandler, myRefCode,   }) => {
 
         <Flex alignItems="center" style={isMobile ? { display: "none" } : {}}>
           {networkId != process.env.REACT_APP_CHAIN_ID && account ? (
-              <OutlineButton
-              onClick={() =>
+            <div  onClick={() =>
                 switchNetworkHandler(process.env.REACT_APP_CHAIN_ID)
-              }
-            >
-              Wrong network
-            </OutlineButton>
+              } className="connectBtnWallet">
+              <div className="titleConnectWallet"> Wrong network</div>
+              <img src={accessTokenBtn} alt="Connect Wallet" className="imageConnectWallet" />
+            </div>
+            //   <OutlineButton
+            //   onClick={() =>
+            //     switchNetworkHandler(process.env.REACT_APP_CHAIN_ID)
+            //   }
+            // >
+            //   Wrong network
+            // </OutlineButton>
           ) : (
             RenderConnectButton(
               account,
