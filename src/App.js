@@ -10,6 +10,7 @@ import BgPopup from "./assets/image/background.png";
 import BgMedia from "./assets/image/backgroundScreenSmall.png";
 
 import useDAO from "./hooks/useDAO";
+import { isMobile } from "react-device-detect";
 
 import btnExchange from "./assets/image/btnExchange.png";
 
@@ -19,7 +20,14 @@ import PilotEarth from "./assets/image/pilotEarth.png";
 import ABI_TOKEN_CONTRACT from "./contracts/ABI.json";
 
 function App() {
-  const { web3, account, networkId, myRefCode } = useContext(AppContext);
+  const {
+    web3,
+    account,
+    networkId,
+    myRefCode,
+    switchNetworkHandler,
+    handleConnect,
+  } = useContext(AppContext);
 
   const [list, setList] = useState();
   const [loading, setLoading] = useState(false);
@@ -34,23 +42,23 @@ function App() {
     "0xd66c6b4f0be8ce5b39d52e0fd1344c389929b378": "Eth",
   };
 
-  const LAUNCHPAD = "0x58724350F51ede1fc7D7878bB91a38E4d52711fB";
+  const LAUNCHPAD = "0x7aD6eca814Ad51d2DE862A5ac97E8FAfCEcAEd25";
 
   const { getListTreasure } = useDAO();
+
+  console.log("Account", account);
 
   const fetchData = async (web3) => {
     setLoading(true);
     const data = await getListTreasure(account);
     const arrId = data[0].map((item) => item.id);
 
-    console.log(data[0]);
-
     let promises = [];
     for (let id of arrId) {
-      promises.push(getTreasueContract(web3, id));
+      const result = getTreasueContract(web3, id);
+      promises.push(result);
     }
     let values = await Promise.all(promises);
-    console.log("values", values);
 
     data[0].map((item, index) => {
       item.isExchanged = values[index];
@@ -58,6 +66,7 @@ function App() {
 
     setList(data[0]);
     list && setLoading(false);
+    networkId != process.env.REACT_APP_CHAIN_ID && setLoading(false);
   };
 
   const getTreasueContract = async (web3, id) => {
@@ -67,12 +76,25 @@ function App() {
     try {
       const contract = new web3.eth.Contract(ABI_TOKEN_CONTRACT, LAUNCHPAD);
       const data = await contract.methods.treasureCollect(id).call();
-      return data.isCollected;
-      // return data.isExchanged;
+      return data.isExchanged;
     } catch (error) {
       console.log("checkExchanged", error);
-      return {};
+      // return {};
     }
+  };
+
+  const exchangeNFT = async (uid) => {
+    const contract = new web3.eth.Contract(ABI_TOKEN_CONTRACT, LAUNCHPAD);
+
+    const data = await contract.methods
+      .exchangeNFT(uid, account)
+      .send({ from: account });
+
+    console.log("data:", data);
+  };
+
+  const handleExchangeTreasure = (uid) => {
+    exchangeNFT(uid);
   };
 
   useEffect(() => {
@@ -80,15 +102,154 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account, web3]);
 
-  const itemCard = {
-    backgroundImage: `url(${Card})`,
+  const RenderButtonExchange = () => {
+    if (window.ethereum) {
+      if (!account) {
+        return (
+          <div onClick={handleConnect} className="switch_network">
+            <img src={Card} alt="card" className="image_switch_network" />
+            <div
+              onClick={() =>
+                switchNetworkHandler(process.env.REACT_APP_CHAIN_ID)
+              }
+              className="button_switch_network"
+            >
+              <div className="content_switch_network">Connect Wallet</div>
+              <img src={btnExchange} alt="Exchange" className="img_switch" />
+            </div>
+          </div>
+        );
+      }
+    } else {
+      if (isMobile)
+        return (
+          <div className="switch_network">
+            <img src={Card} alt="card" className="image_switch_network" />
+            <div className="button_switch_network">
+              <a
+                style={{ textDecoration: "none" }}
+                target="_blank"
+                href={process.env.REACT_APP_METAMASK_DOMAIN}
+                className="content_switch_network"
+              >
+                Connect Wallet
+              </a>
+              <img src={btnExchange} alt="Exchange" className="img_switch" />
+            </div>
+          </div>
+          // <div
+          //   style={{ textDecoration: "none" }}
+          //   target="_blank"
+          //   as="a"
+          //   href={process.env.REACT_APP_METAMASK_DOMAIN}
+          // >
+          //   Connect Wallet
+          // </div>
+        );
+      return (
+        <div
+          target="_blank"
+          href="https://metamask.io/download.html"
+          className="switch_network"
+        >
+          <img src={Card} alt="card" className="image_switch_network" />
+          <div className="button_switch_network">
+            <a
+              style={{ textDecoration: "none" }}
+              target="_blank"
+              href="https://metamask.io/download.html"
+              className="content_switch_network"
+            >
+              Install Metamask
+            </a>
+            <img src={btnExchange} alt="Exchange" className="img_switch" />
+          </div>
+        </div>
+        // <div as="a" target="_blank" href="https://metamask.io/download.html">
+        //   Install Metamask
+        // </div>
+      );
+    }
   };
 
-  const disableCard = {
-    backgroundImage: `url(${Card})`,
-    opacity: 0.5,
-    cursor: "auto",
-    hover: "none",
+  const RenderExchangeTreasure = () => {
+    return (
+      <div className="wrapperItem">
+        {list?.length > 0 ? (
+          list.map((item, index) => (
+            <div key={index} className="itemAll">
+              <div className={item.isExchanged ? "disable_item" : "item"}>
+                <img
+                  src={Card}
+                  className={
+                    item.isExchanged ? "disable_card_item" : "card_item"
+                  }
+                  alt="item"
+                />
+                <div className="elementInItem">
+                  <div className="wrapperImage">
+                    <img src={item.imgUrl} alt={item.name} className="image" />
+                  </div>
+                  <div
+                    style={{
+                      maxWidth: "80%",
+                      alignItems: "center",
+                    }}
+                  >
+                    {item?.name?.length > 25
+                      ? `${item.name.slice(0, 25)}...`
+                      : item.name}
+                    <div className="wrapper_content_star">
+                      <div style={{ marginRight: "0.5rem" }}>{item.total}</div>
+                      <div>{tokenContractor[item.tokenContract]}</div>
+                    </div>
+                  </div>
+                </div>
+                {networkId == process.env.REACT_APP_CHAIN_ID ? (
+                  <div
+                    onClick={() =>
+                      item.isExchanged ? "" : handleExchangeTreasure(item.id)
+                    }
+                    className="wrapperBtnExchange"
+                  >
+                    <div>{item.isExchanged ? "Exchanged" : "Exchange"}</div>
+
+                    <img
+                      src={btnExchange}
+                      alt="Exchange"
+                      className="exchangeImage"
+                    />
+                  </div>
+                ) : (
+                  <div
+                    onClick={() =>
+                      switchNetworkHandler(process.env.REACT_APP_CHAIN_ID)
+                    }
+                    className="wrapper_btn_switch"
+                  >
+                    <div style={{ color: "yellow" }}>Switch NetWork</div>
+                    <img
+                      src={btnExchange}
+                      alt="Exchange"
+                      className="exchangeImage"
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="new_item_all">
+            <img src={Card} className="card_item" alt="item" />
+            <div className="empty_content">No Data</div>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const RenderButton = () => {
+    return !account ? RenderButtonExchange() : RenderExchangeTreasure();
   };
 
   return (
@@ -156,73 +317,7 @@ function App() {
             <CircularProgress />
           </div>
         )}
-        {!loading && (
-          <div className="wrapperItem">
-            {account ? (
-              list?.length > 0 ? (
-                list.map((item, index) => (
-                  <div key={index} className="itemAll">
-                    <div
-                      style={item.isExchanged ? disableCard : itemCard}
-                      className={item.isExchanged ? "disable_item" : "item"}
-                    >
-                      <div className="elementInItem">
-                        <div className="wrapperImage">
-                          <img
-                            src={item.imgUrl}
-                            alt={item.name}
-                            className="image"
-                          />
-                        </div>
-                        <div
-                          style={{
-                            maxWidth: "80%",
-                            alignItems: "center",
-                          }}
-                        >
-                          {item?.name?.length > 25
-                            ? `${item.name.slice(0, 25)}...`
-                            : item.name}
-                          <div
-                            style={{
-                              display: "flex",
-                              flexDirection: "row",
-                              color: "yellow",
-                              marginTop: "0.7rem",
-                            }}
-                          >
-                            <div style={{ marginRight: "0.5rem" }}>
-                              {item.total}
-                            </div>
-                            <div>{tokenContractor[item.tokenContract]}</div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="wrapperBtnExchange">
-                        <div>{item.isExchanged ? "Exchanged" : "Exchange"}</div>
-                        <img
-                          src={btnExchange}
-                          alt="Exchange"
-                          className="exchangeImage"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <div className="new_item_all">
-                  <div style={itemCard} className="wrapper_list_empty">
-                    Empty
-                  </div>
-                </div>
-              )
-            ) : (
-              <div className="item_disconnect">
-                <div>No data, connect wallet to see and exchange treasure</div>
-              </div>
-            )}
-          </div>
-        )}
+        {!loading && RenderButton()}
       </div>
     </div>
   );

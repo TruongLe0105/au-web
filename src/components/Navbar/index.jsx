@@ -26,14 +26,14 @@ const NavWrapper = styled.div`
   background-color: black;
   height: ${NAV_HEIGHT};
   background-image: url(${bgHeader});
-  @media (max-width: 768px) {
+  @media (max-width: 760px) {
     height:70px;
     padding:0;
   }
-  @media screen and (min-width: 768px) and (max-width: 992px) {
+  /* @media screen and (min-width: 768px) and (max-width: 992px) {
     height:90px;
     padding:0;
-  }
+  } */
 `;
 
 const StyledLogoIcon = styled.img`
@@ -128,8 +128,7 @@ const RenderConnectButton = (
         className="connectBtnWallet">
         <div className="titleConnectWallet">Install Metamask</div>
         <img src={accessTokenBtn} alt="Connect Wallet" className="imageConnectWallet" />
-      </div>
-      
+      </div>     
     );
   }
 
@@ -195,7 +194,7 @@ const Navbar = ({ account, networkId, openModalHandler, myRefCode,   }) => {
             <div onClick={() =>
                 switchNetworkHandler(process.env.REACT_APP_CHAIN_ID)
               } className="connectBtnWallet">
-              <div className="titleConnectWallet"> Wrong network</div>
+              <div className="titleConnectWallet" style={{color:"red"}}>Wrong network</div>
               <img src={accessTokenBtn} alt="Connect Wallet" className="imageConnectWallet" />
             </div>
             //   <OutlineButton
@@ -222,7 +221,7 @@ const Navbar = ({ account, networkId, openModalHandler, myRefCode,   }) => {
             <div  onClick={() =>
                 switchNetworkHandler(process.env.REACT_APP_CHAIN_ID)
               } className="connectBtnWallet">
-              <div className="titleConnectWallet"> Wrong network</div>
+              <div className="titleConnectWallet" style={{color:"red"}}> Wrong network</div>
               <img src={accessTokenBtn} alt="Connect Wallet" className="imageConnectWallet" />
             </div>
             //   <OutlineButton
