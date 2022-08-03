@@ -125,15 +125,21 @@ function App() {
         return (
           <div className="switch_network">
             <img src={Card} alt="card" className="image_switch_network" />
-            <div className="button_switch_network">
-              <a
+            <div
+              onClick={() =>
+                switchNetworkHandler(process.env.REACT_APP_CHAIN_ID)
+              }
+              className="button_switch_network"
+            >
+              <button
                 style={{ textDecoration: "none" }}
+                as="a"
                 target="_blank"
                 href={process.env.REACT_APP_METAMASK_DOMAIN}
                 className="content_switch_network"
               >
                 Connect Wallet
-              </a>
+              </button>
               <img src={btnExchange} alt="Exchange" className="img_switch" />
             </div>
           </div>
