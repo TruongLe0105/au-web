@@ -22,7 +22,13 @@
 .imageConnectWallet {
     width: 100%;
     position: absolute;
+    z-index: 100;
 }
+
+a:active, a:link, a:visited{
+    color:white
+}
+
 
 @keyframes shaking {
     0% {

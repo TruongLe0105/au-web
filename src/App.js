@@ -3,6 +3,7 @@ import "./App.css";
 import GlobalStyled from "./GlobalStyled";
 import { AppContext } from "./AppContext";
 import { CircularProgress } from "@mui/material";
+import { isMobile } from "react-device-detect";
 
 import Navbar from "./components/Navbar";
 
@@ -10,7 +11,6 @@ import BgPopup from "./assets/image/background.png";
 import BgMedia from "./assets/image/backgroundScreenSmall.png";
 
 import useDAO from "./hooks/useDAO";
-import { isMobile } from "react-device-detect";
 
 import btnExchange from "./assets/image/btnExchange.png";
 
@@ -56,6 +56,7 @@ function App() {
     let promises = [];
     for (let id of arrId) {
       const result = getTreasueContract(web3, id);
+      console.log("ID", id);
       promises.push(result);
     }
     let values = await Promise.all(promises);
@@ -84,17 +85,23 @@ function App() {
   };
 
   const exchangeNFT = async (uid) => {
-    const contract = new web3.eth.Contract(ABI_TOKEN_CONTRACT, LAUNCHPAD);
+    try {
+      const contract = new web3.eth.Contract(ABI_TOKEN_CONTRACT, LAUNCHPAD);
 
-    const data = await contract.methods
-      .exchangeNFT(uid, account)
-      .send({ from: account });
-
-    console.log("data:", data);
+      const data = await contract.methods
+        .exchangeNFT(uid, account)
+        .send({ from: account });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const handleExchangeTreasure = (uid) => {
-    exchangeNFT(uid);
+  const handleExchangeTreasure = (item) => {
+    if (item.isExchanged) {
+      return;
+    } else {
+      exchangeNFT(item.id);
+    }
   };
 
   useEffect(() => {
@@ -131,26 +138,17 @@ function App() {
               }
               className="button_switch_network"
             >
-              <button
+              <a
                 style={{ textDecoration: "none" }}
-                as="a"
                 target="_blank"
                 href={process.env.REACT_APP_METAMASK_DOMAIN}
                 className="content_switch_network"
               >
                 Connect Wallet
-              </button>
+              </a>
               <img src={btnExchange} alt="Exchange" className="img_switch" />
             </div>
           </div>
-          // <div
-          //   style={{ textDecoration: "none" }}
-          //   target="_blank"
-          //   as="a"
-          //   href={process.env.REACT_APP_METAMASK_DOMAIN}
-          // >
-          //   Connect Wallet
-          // </div>
         );
       return (
         <div
@@ -171,14 +169,35 @@ function App() {
             <img src={btnExchange} alt="Exchange" className="img_switch" />
           </div>
         </div>
-        // <div as="a" target="_blank" href="https://metamask.io/download.html">
-        //   Install Metamask
-        // </div>
       );
     }
   };
 
   const RenderExchangeTreasure = () => {
+    const RenderChooseButton = (item) => {
+      if (networkId == process.env.REACT_APP_CHAIN_ID) {
+        return (
+          <div
+            onClick={() => handleExchangeTreasure(item)}
+            className="wrapperBtnExchange"
+          >
+            <div>{item.isExchanged ? "Exchanged" : "Exchange"}</div>
+            <img src={btnExchange} alt="Exchange" className="exchangeImage" />
+          </div>
+        );
+      } else {
+        return (
+          <div
+            onClick={() => switchNetworkHandler(process.env.REACT_APP_CHAIN_ID)}
+            className="wrapper_btn_switch"
+          >
+            <div style={{ color: "yellow" }}>Switch NetWork</div>
+            <img src={btnExchange} alt="Exchange" className="exchangeImage" />
+          </div>
+        );
+      }
+    };
+
     return (
       <div className="wrapperItem">
         {list?.length > 0 ? (
@@ -211,36 +230,7 @@ function App() {
                     </div>
                   </div>
                 </div>
-                {networkId == process.env.REACT_APP_CHAIN_ID ? (
-                  <div
-                    onClick={() =>
-                      item.isExchanged ? "" : handleExchangeTreasure(item.id)
-                    }
-                    className="wrapperBtnExchange"
-                  >
-                    <div>{item.isExchanged ? "Exchanged" : "Exchange"}</div>
-
-                    <img
-                      src={btnExchange}
-                      alt="Exchange"
-                      className="exchangeImage"
-                    />
-                  </div>
-                ) : (
-                  <div
-                    onClick={() =>
-                      switchNetworkHandler(process.env.REACT_APP_CHAIN_ID)
-                    }
-                    className="wrapper_btn_switch"
-                  >
-                    <div style={{ color: "yellow" }}>Switch NetWork</div>
-                    <img
-                      src={btnExchange}
-                      alt="Exchange"
-                      className="exchangeImage"
-                    />
-                  </div>
-                )}
+                {RenderChooseButton(item)}
               </div>
             </div>
           ))

@@ -52,7 +52,7 @@ const RenderConnectButton = (
   handleConnect,
   openModalHandler,
   myRefCode,
-  
+  switchNetworkHandler
   
 ) => {
 
@@ -102,14 +102,11 @@ const RenderConnectButton = (
         // >
         //   Connect Wallet
         // </OutlineButton>
-        <div 
-          style={{ textDecoration: "none" }}
-            target="_blank"
-            as="a"
-            href={process.env.REACT_APP_METAMASK_DOMAIN}
-          className="connectBtnWallet"
-          >
-          <div className="titleConnectWallet">Connect Wallet</div>
+        <div onClick={() =>
+          switchNetworkHandler(process.env.REACT_APP_CHAIN_ID)
+        } className="connectBtnWallet">
+          <a  href={process.env.REACT_APP_METAMASK_DOMAIN} style={{ textDecoration: "none" }}
+            target="_blank" className="titleConnectWallet">Connect Wallet</a>
           <img src={accessTokenBtn} alt="Connect Wallet" className="imageConnectWallet" />
         </div>
       );
@@ -210,7 +207,7 @@ const Navbar = ({ account, networkId, openModalHandler, myRefCode,   }) => {
               handleConnect,
               openModalHandler,
               myRefCode,
-              
+              switchNetworkHandler
               
             )
           )}
@@ -237,7 +234,7 @@ const Navbar = ({ account, networkId, openModalHandler, myRefCode,   }) => {
               handleConnect,
               openModalHandler,
               myRefCode,
-              
+              switchNetworkHandler
               
             )
           )}

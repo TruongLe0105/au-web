@@ -50,7 +50,7 @@ body {
   top:30%;
   left:50%;
   transform: translate(-50%);
-  z-index:2000
+  z-index:600
 }
 
 .itemAll {
@@ -222,6 +222,7 @@ body {
   align-items: center;
   height:40px;
   width: 120px;
+  z-index: 100;
 }
 
 
@@ -284,6 +285,10 @@ body {
   position: absolute;
 }
 
+a:active, a:link, a:visited{
+  color:white
+}
+
 @media screen and (max-width: 350px) {
   .containerTreasure {
     margin-top: 5rem;
@@ -310,7 +315,7 @@ body {
 
   .wrapperBtnExchange {
     width:4rem;
-    height:1.5rem;
+    height:1.8rem;
     font-size: 0.6rem;
     position: absolute;
     right:0.5rem;
@@ -417,6 +422,16 @@ body {
     margin-top: 0.5rem;
   }
 
+  .content_switch_network {
+    font-size: 0.8rem;
+    font-size: 2000;
+  }
+
+  .button_switch_network {
+    width: 105px;
+    top:30%;
+  }
+
   .containerTreasure {
     font-size: 1rem;
    margin-top: 5rem;
@@ -446,9 +461,16 @@ body {
 
   .wrapperBtnExchange {
     margin-right: 0.5rem;
-    height:25px;
+    height:100%;
     width: 90px;
+    font-size: 0.8rem;
+    background-color: transparent;
+    position: relative;
   } 
+
+  .exchangeImage {
+    height:40%;
+  }
 
   .wrapper_btn_switch {
     height: 2.2rem;
