@@ -42,7 +42,7 @@ function App() {
     "0xd66c6b4f0be8ce5b39d52e0fd1344c389929b378": "Eth",
   };
 
-  const LAUNCHPAD = "0x7aD6eca814Ad51d2DE862A5ac97E8FAfCEcAEd25";
+  const LAUNCHPAD = process.env.REACT_APP_LAUNCHPAD_ADDRESS;
 
   const { getListTreasure } = useDAO();
 
