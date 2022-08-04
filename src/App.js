@@ -30,8 +30,10 @@ function App() {
   } = useContext(AppContext);
 
   const [list, setList] = useState();
+  // const [updateList, setUpdateList] = useState();
   const [loading, setLoading] = useState(false);
   const [isShowAcc, setShowAcc] = useState(false);
+  const [listExchanged, setListExchanged] = useState(false);
 
   const closeModalHandler = useCallback(() => setShowAcc(false), []);
   const openModalHandler = useCallback(() => setShowAcc(true), []);
@@ -46,8 +48,6 @@ function App() {
 
   const { getListTreasure } = useDAO();
 
-  console.log("Account", account);
-
   const fetchData = async (web3) => {
     setLoading(true);
     const data = await getListTreasure(account);
@@ -56,7 +56,6 @@ function App() {
     let promises = [];
     for (let id of arrId) {
       const result = getTreasueContract(web3, id);
-      console.log("ID", id);
       promises.push(result);
     }
     let values = await Promise.all(promises);
@@ -70,6 +69,8 @@ function App() {
     networkId != process.env.REACT_APP_CHAIN_ID && setLoading(false);
   };
 
+  console.log("EXchanged", listExchanged);
+
   const getTreasueContract = async (web3, id) => {
     if (!web3) {
       return [];
@@ -80,17 +81,14 @@ function App() {
       return data.isExchanged;
     } catch (error) {
       console.log("checkExchanged", error);
-      // return {};
     }
   };
 
   const exchangeNFT = async (uid) => {
     try {
       const contract = new web3.eth.Contract(ABI_TOKEN_CONTRACT, LAUNCHPAD);
-
-      const data = await contract.methods
-        .exchangeNFT(uid, account)
-        .send({ from: account });
+      await contract.methods.exchangeNFT(uid, account).send({ from: account });
+      return setListExchanged(true);
     } catch (error) {
       console.log(error);
     }
@@ -107,7 +105,7 @@ function App() {
   useEffect(() => {
     fetchData(web3);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account, web3]);
+  }, [account, web3, listExchanged]);
 
   const RenderButtonExchange = () => {
     if (window.ethereum) {
