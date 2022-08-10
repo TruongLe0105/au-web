@@ -52,6 +52,7 @@ function App() {
     setLoading(true);
     const data = await getListTreasure(account);
     const arrId = data[0].map((item) => item.id);
+    console.log(account);
 
     let promises = [];
     for (let id of arrId) {
@@ -59,6 +60,7 @@ function App() {
       promises.push(result);
     }
     let values = await Promise.all(promises);
+    console.log(values);
 
     data[0].map((item, index) => {
       item.isExchanged = values[index];
@@ -68,8 +70,6 @@ function App() {
     list && setLoading(false);
     networkId != process.env.REACT_APP_CHAIN_ID && setLoading(false);
   };
-
-  console.log("EXchanged", listExchanged);
 
   const getTreasueContract = async (web3, id) => {
     if (!web3) {
